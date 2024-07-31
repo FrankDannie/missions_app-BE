@@ -35,3 +35,4 @@ test-results.xml
 # Migrations
 alembic/
 migrations/
+app/__pycache__/
