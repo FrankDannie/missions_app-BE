@@ -1,0 +1,277 @@
+openapi: 3.0.0
+info:
+  title: Mission and Robot API
+  description: API for managing missions and robots.
+  version: 1.0.0
+
+servers:
+  - url: /api/v1
+
+paths:
+  /missions:
+    get:
+      summary: List all missions
+      description: Lists all missions with optional pagination.
+      parameters:
+        - name: skip
+          in: query
+          description: The number of missions to skip.
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: The maximum number of missions to return.
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: A list of missions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mission'
+        '400':
+          description: Bad request, invalid parameters
+
+    post:
+      summary: Create a new mission
+      description: Creates a new mission with the provided details.
+      requestBody:
+        description: Mission object that needs to be added.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MissionCreate'
+      responses:
+        '200':
+          description: Mission created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mission'
+        '400':
+          description: Bad request, invalid input
+
+  /missions/{mission_id}:
+    get:
+      summary: Retrieve a specific mission
+      description: Retrieves details of a specific mission by its ID.
+      parameters:
+        - name: mission_id
+          in: path
+          required: true
+          description: The ID of the mission to retrieve.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Mission details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mission'
+        '404':
+          description: Mission not found
+
+    put:
+      summary: Update an existing mission
+      description: Updates an existing mission with the provided details.
+      parameters:
+        - name: mission_id
+          in: path
+          required: true
+          description: The ID of the mission to update.
+          schema:
+            type: integer
+      requestBody:
+        description: Mission object with updated details.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MissionUpdate'
+      responses:
+        '200':
+          description: Mission updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mission'
+        '404':
+          description: Mission not found
+
+  /robots:
+    get:
+      summary: List all robots
+      description: Retrieve a list of all robots, with optional pagination.
+      parameters:
+        - name: skip
+          in: query
+          description: Number of items to skip for pagination.
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Number of items to return for pagination.
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: A list of robots.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Robot'
+
+    post:
+      summary: Create a new robot
+      description: Add a new robot to the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RobotCreate'
+      responses:
+        '200':
+          description: The created robot.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Robot'
+
+  /robots/{robot_id}:
+    get:
+      summary: Retrieve a specific robot
+      description: Get details of a robot by its ID.
+      parameters:
+        - name: robot_id
+          in: path
+          description: ID of the robot to retrieve.
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Details of the requested robot.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Robot'
+        '404':
+          description: Robot not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+    put:
+      summary: Update a specific robot
+      description: Modify the details of an existing robot.
+      parameters:
+        - name: robot_id
+          in: path
+          description: ID of the robot to update.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RobotUpdate'
+      responses:
+        '200':
+          description: The updated robot.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Robot'
+        '404':
+          description: Robot not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+
+components:
+  schemas:
+    MissionBase:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        robot_id:
+          type: integer
+      required:
+        - name
+        - description
+        - robot_id
+
+    MissionCreate:
+      allOf:
+        - $ref: '#/components/schemas/MissionBase'
+
+    MissionUpdate:
+      allOf:
+        - $ref: '#/components/schemas/MissionBase'
+
+    Mission:
+      allOf:
+        - $ref: '#/components/schemas/MissionBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+          required:
+            - id
+
+    RobotBase:
+      type: object
+      properties:
+        name:
+          type: string
+        model_name:
+          type: string
+      required:
+        - name
+        - model_name
+
+    RobotCreate:
+      allOf:
+        - $ref: '#/components/schemas/RobotBase'
+
+    RobotUpdate:
+      allOf:
+        - $ref: '#/components/schemas/RobotBase'
+
+    Robot:
+      allOf:
+        - $ref: '#/components/schemas/RobotBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+          required:
+            - id
