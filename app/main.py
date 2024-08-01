@@ -11,6 +11,7 @@ Base.metadata.create_all(bind=engine)
 # CORS configuration
 origins = [
     "http://localhost:3000",
+    "https://master.die104rkefl1e.amplifyapp.com"
     # Add other origins if necessary
 ]
 
