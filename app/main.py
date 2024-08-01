@@ -24,3 +24,14 @@ app.add_middleware(
 
 # Include the API router
 app.include_router(api_router, prefix="/api/v1")
+
+
+@app.get("/")
+def read_root():
+    """
+    Root endpoint for the FastAPI application.
+
+    Returns:
+        dict: A simple message indicating that the API is up and running.
+    """
+    return {"message": "API is up and running"}

@@ -7,7 +7,7 @@ __pycache__/
 *.sqlite3
 
 # Virtual environment
-venv/
+.venv/
 .env/
 
 # IDE and Editor files

@@ -46,7 +46,9 @@ exclude = '''
 )/
 '''
 
+
 [tool.pytest.ini_options]
+python_paths = .
 filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::sqlalchemy.exc.SAWarning",
