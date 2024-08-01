@@ -36,3 +36,4 @@ test-results.xml
 alembic/
 migrations/
 app/__pycache__/
+.coverage
