@@ -48,7 +48,6 @@ exclude = '''
 
 
 [tool.pytest.ini_options]
-python_paths = .
 filterwarnings = [
     "ignore::DeprecationWarning",
     "ignore::sqlalchemy.exc.SAWarning",
@@ -65,3 +64,4 @@ prettify = "black app"
 pytest = "pytest --cov=app.main"
 dev = "uvicorn app.main:app --host 0.0.0.0 --reload --port 8000"
 prod = "uvicorn app.main:app --host 0.0.0.0 --reload --port 8000"
+
