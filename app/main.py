@@ -10,8 +10,7 @@ Base.metadata.create_all(bind=engine)
 
 # CORS configuration
 origins = [
-    "https://master.die104rkefl1e.amplifyapp.com"
-    # Add other origins if necessary
+    "https://d3rxnv28y9hnag.cloudfront.net",
 ]
 
 app.add_middleware(
